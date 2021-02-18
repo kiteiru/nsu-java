@@ -17,7 +17,6 @@ public class GetResult {
             }
         };
         List<Map.Entry<String, Integer>> resultList = dataContainer.entrySet().stream().sorted(comparing).collect(Collectors.toList());
-
         writer.write("Total number of words is: " + wordCounter + "\n\n");
         for (var it : resultList) {
             double percentage = 100 * (double)it.getValue() / wordCounter;

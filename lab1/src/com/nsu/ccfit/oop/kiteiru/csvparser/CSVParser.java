@@ -26,18 +26,18 @@ public class CSVParser {
                 word.append((char)character);
             }
             else if (word.length() > 0) {
-                IncreaseValue(word.toString());
+                AddWordInMap(word.toString());
                 wordCounter++;
                 word.delete(0, word.length());
             }
         }
         if (word.length() > 0) {
-            IncreaseValue(word.toString());
+            AddWordInMap(word.toString());
             wordCounter++;
         }
     }
 
-    private void IncreaseValue(String word) {
+    private void AddWordInMap(String word) {
         if (dataContainer.containsKey(word)){
             dataContainer.put(word, dataContainer.get(word) + 1);
         }
