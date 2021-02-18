@@ -2,20 +2,18 @@ package com.nsu.ccfit.oop.kiteiru.csvparser;
 
 import com.nsu.ccfit.oop.kiteiru.getresult.GetResult;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CSVParser {
     final Map<String, Integer> dataContainer = new HashMap<>();
     int wordCounter = 0;
-    private final Reader reader;
-    private final Writer writer;
+    private Reader reader;
 
-    public CSVParser(Reader reader, Writer writer) throws IOException {
+    public void AddData(Reader reader) throws IOException{
         this.reader = reader;
-        this.writer = writer;
         AddDataInMap();
     }
 
@@ -27,17 +25,16 @@ public class CSVParser {
             if (Character.isLetterOrDigit((char)character)) {
                 word.append((char)character);
             }
-            else if (word.length() != 0) {
+            else if (word.length() > 0) {
                 IncreaseValue(word.toString());
                 wordCounter++;
                 word.delete(0, word.length());
             }
         }
-        if (word.length() != 0) {
+        if (word.length() > 0) {
             IncreaseValue(word.toString());
             wordCounter++;
         }
-        GetResult result = new GetResult(writer, dataContainer, wordCounter);
     }
 
     private void IncreaseValue(String word) {
@@ -47,5 +44,9 @@ public class CSVParser {
         else {
             dataContainer.put(word, 1);
         }
+    }
+
+    public void FinishParsing(PrintWriter writer) throws IOException {
+        GetResult result = new GetResult(writer, dataContainer, wordCounter);
     }
 }
