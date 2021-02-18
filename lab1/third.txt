@@ -1,0 +1,6 @@
+file
+hello
+hello world
+sun day
+time 
+name
