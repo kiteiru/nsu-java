@@ -18,6 +18,7 @@ public class GetResult {
         };
         List<Map.Entry<String, Integer>> resultList = dataContainer.entrySet().stream().sorted(comparing).collect(Collectors.toList());
         writer.write("Total number of words is: " + wordCounter + "\n\n");
+        writer.printf("unique.word      word.freq  freq,perc\n");
         for (var it : resultList) {
             double percentage = 100 * (double)it.getValue() / wordCounter;
             writer.printf("%-14s %-4s %-6f%%\n", it.getKey(), it.getValue().toString(), percentage);
