@@ -22,10 +22,9 @@ public class GetResult {
         };
         List<Map.Entry<String, Integer>> finishedList = dataContainer.entrySet().stream().sorted(comparing).collect(Collectors.toList());
 
+        writer.write("Total number of unique words is: " + wordCounter + "%\n");
         for (var it : finishedList) {
             writer.write(it.getKey() + ";" + it.getValue().toString() + ";" + (100 * (double)it.getValue() / wordCounter) + "%\n");
         }
-
-        writer.write("Total number of unique words is: " + wordCounter);
     }
 }
