@@ -1,8 +1,6 @@
 package com.nsu.ccfit.oop.kiteiru.main;
 
 import com.nsu.ccfit.oop.kiteiru.csvparser.CSVParser;
-import com.nsu.ccfit.oop.kiteiru.getresult.GetResult;
-
 import java.io.*;
 
 public class Main {
@@ -15,12 +13,13 @@ public class Main {
             String inputFileName;
             String outputFileName = args[args.length - 1];
             Reader reader = null;
+            PrintWriter writer = new PrintWriter(new FileOutputStream(outputFileName));
             CSVParser parser = new CSVParser();
             try {
                 for (int i = 0; i < args.length - 1; i++) {
                     inputFileName = args[i];
                     reader = new InputStreamReader(new FileInputStream(inputFileName));
-                    parser.AddData(reader);
+                    parser.AddDataFromFile(reader);
                 }
             }
             catch (FileNotFoundException e) {
@@ -36,7 +35,6 @@ public class Main {
                     }
                 }
             }
-            PrintWriter writer = new PrintWriter(new FileOutputStream(outputFileName));
             try {
                 parser.FinishParsing(writer);
             }

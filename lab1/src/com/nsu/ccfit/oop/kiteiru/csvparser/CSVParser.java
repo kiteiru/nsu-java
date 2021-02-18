@@ -12,7 +12,7 @@ public class CSVParser {
     int wordCounter = 0;
     private Reader reader;
 
-    public void AddData(Reader reader) throws IOException{
+    public void AddDataFromFile(Reader reader) throws IOException{
         this.reader = reader;
         AddDataInMap();
     }
