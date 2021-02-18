@@ -10,24 +10,38 @@ import java.util.Map;
 public class CSVParser {
     final Map<String, Integer> dataContainer = new HashMap<>();
     int wordCounter = 0;
+    private final Reader reader;
+    private final Writer writer;
 
     public CSVParser(Reader reader, Writer writer) throws IOException {
-        StringBuilder word = new StringBuilder();
+        this.reader = reader;
+        this.writer = writer;
+        AddDataInMap();
+    }
 
-        while(reader.read() > 0) {
-            if (Character.isLetterOrDigit((char)(reader.read()))) {
-                word.append((char)(reader.read()));
+    private void AddDataInMap() throws IOException {
+        StringBuilder word = new StringBuilder();
+        int character;
+        while(reader.ready()) {
+            character = reader.read();
+            if (Character.isLetterOrDigit((char)character)) {
+                word.append((char)character);
+            }
+            else if (word.length() != 0) {
+                IncreaseValue(word.toString());
+                wordCounter++;
+                word.delete(0, word.length());
             }
         }
-        if (word.length() > 0) {
-            addMapValue(word.toString());
+        if (word.length() != 0) {
+            IncreaseValue(word.toString());
             wordCounter++;
         }
         GetResult result = new GetResult(writer, dataContainer, wordCounter);
     }
 
-    private void addMapValue(String word) {
-        if (dataContainer.containsKey(word)) {
+    private void IncreaseValue(String word) {
+        if (dataContainer.containsKey(word)){
             dataContainer.put(word, dataContainer.get(word) + 1);
         }
         else {
