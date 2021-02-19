@@ -14,10 +14,6 @@ public class CSVParser {
 
     public void AddDataFromFile(Reader reader) throws IOException{
         this.reader = reader;
-        AddDataInMap();
-    }
-
-    private void AddDataInMap() throws IOException {
         StringBuilder word = new StringBuilder();
         int character;
         while(reader.ready()) {
