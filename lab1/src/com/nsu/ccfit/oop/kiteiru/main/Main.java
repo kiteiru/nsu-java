@@ -20,13 +20,6 @@ public class Main {
                     inputFileName = args[i];
                     reader = new InputStreamReader(new FileInputStream(inputFileName));
                     parser.AddDataFromFile(reader);
-                }
-            }
-            catch (FileNotFoundException e) {
-                System.err.println("Current error is: " + e.getLocalizedMessage());
-            }
-            finally {
-                if (reader != null) {
                     try {
                         reader.close();
                     }
@@ -34,6 +27,9 @@ public class Main {
                         e.printStackTrace(System.err);
                     }
                 }
+            }
+            catch (FileNotFoundException e) {
+                System.err.println("Current error is: " + e.getLocalizedMessage());
             }
             try {
                 parser.FinishParsing(writer);
