@@ -1,10 +1,7 @@
 package ru.ccfit.oop.kiteiru;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Ball {
     public static final int SIZE = 45;
@@ -38,19 +35,12 @@ public class Ball {
         yVel *= -1;
     }
 
-    public void draw(Graphics g) throws IOException {
-
-        try {
-            ballImage = ImageIO.read(getClass().getResourceAsStream("/graphics/sakura.png"));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void draw(Graphics g) {
 
 
         g.drawImage(ballImage, x, y, SIZE, SIZE, null);
-        //g.setColor(Color.white);
-        //g.fillRect(x, y, SIZE, SIZE);
+        g.setColor(Color.white);
+        g.fillOval(x, y, SIZE, SIZE);
     }
 
     public void update(Paddle paddle1, Paddle paddle2) {

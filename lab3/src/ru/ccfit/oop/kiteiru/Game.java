@@ -1,6 +1,6 @@
 package ru.ccfit.oop.kiteiru;
 
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -120,11 +120,9 @@ public class Game extends Canvas implements Runnable {
 
         //draw ball
         ////////ImageIcon duck = new ImageIcon("/graphics/duck.jpg");
-        try {
-            ball.draw(g);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        ball.draw(g);
+
 
 
         //draw paddles and score
@@ -146,6 +144,8 @@ public class Game extends Canvas implements Runnable {
         Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{10}, 0);
         g2d.setStroke(dashed);
         g2d.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT);
+
+
     }
 
     public void start() {

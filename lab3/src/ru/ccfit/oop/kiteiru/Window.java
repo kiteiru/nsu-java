@@ -2,6 +2,7 @@ package ru.ccfit.oop.kiteiru;
 
 import javax.swing.*;
 
+
 public class Window {
     public Window(String title, Game game) {
         JFrame frame = new JFrame(title);
