@@ -1,6 +1,6 @@
-package ru.ccfit.oop.kiteiru;
+package com.kiteiru;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 
 public class Window {
@@ -11,9 +11,7 @@ public class Window {
         frame.setResizable(false);
         frame.add(game);
         frame.pack();
-        frame.setLocationRelativeTo(null); //game appears centered
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-        game.start();
     }
 }

@@ -1,4 +1,4 @@
-package ru.ccfit.oop.kiteiru;
+package com.kiteiru;
 
 public class Main {
     public static void main(String[] args) {
