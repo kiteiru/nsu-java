@@ -17,23 +17,26 @@ public class Final extends MouseAdapter {
     private boolean playHighlight = false;
     private boolean winnerHighlight = false;
 
+
     public Final(Game game) {
         active = true;
 
-        int positionX, positionY, buttonWidth = 275, buttonHeight = 135;
+        int positionX, positionY, buttonWidth = 400, buttonHeight = 135;
+        int winnerWidth = Game.WIDTH - 270, winnerHeight = 200;
 
         positionX = Game.WIDTH / 2 - buttonWidth / 2;
-
         positionY = Game.HEIGHT / 2 - buttonHeight - 50;
         playButton = new Rectangle(positionX, positionY, buttonWidth, buttonHeight);
 
-        positionY = Game.HEIGHT / 2 - buttonHeight + 190;
-        winnerButton = new Rectangle(positionX, positionY, buttonWidth, buttonHeight);
 
-        font = new Font("Roboto", Font.PLAIN, 100);
+        positionX = Game.WIDTH / 2 - winnerWidth / 2;
+        positionY = Game.HEIGHT / 2 - winnerHeight + 250;
+        winnerButton = new Rectangle(positionX, positionY, winnerWidth, winnerHeight);
+
+        font = new Font("Roboto", Font.PLAIN, 50);
     }
 
-    public void DrawWinner(Graphics g) {
+    public void DrawWinner(Graphics g, boolean leftPlayer) {
         Graphics2D g2d = (Graphics2D) g;
         g.setFont(font);
 
@@ -51,29 +54,43 @@ public class Final extends MouseAdapter {
 
         int strWidth, strHeight;
 
-        strWidth = g.getFontMetrics(font).stringWidth("Play again");
+        strWidth = g.getFontMetrics(font).stringWidth("Take revenge");
         strHeight = g.getFontMetrics(font).getHeight();
 
         g.setColor(Color.decode("0x2D3142"));
-        g.drawString("Play", (int) (playButton.getX() + playButton.getWidth() / 2 - strWidth / 2),
+        g.drawString("Take revenge", (int) (playButton.getX() + playButton.getWidth() / 2 - strWidth / 2),
                 (int) (playButton.getY() + playButton.getHeight() / 2 + strHeight / 4));
 
-        strWidth = g.getFontMetrics(font).stringWidth("Winner");
-        strHeight = g.getFontMetrics(font).getHeight();
+        if (leftPlayer) {
+            strWidth = g.getFontMetrics(font).stringWidth("The winner is left player!");
+        } else {
+            strWidth = g.getFontMetrics(font).stringWidth("The winner is right player!");
+        }
+        //strHeight = g.getFontMetrics(font).getHeight();
 
         g.setColor(Color.decode("0x2D3142"));
-        g.drawString("Exit", (int) (winnerButton.getX() + winnerButton.getWidth() / 2 - strWidth / 2),
-                (int) (winnerButton.getY() + winnerButton.getHeight() / 2 + strHeight / 4));
+        if (leftPlayer) {
+            g.drawString("The winner is left player!", (int) (winnerButton.getX() + winnerButton.getWidth() / 2 - strWidth / 2),
+                    (int) (winnerButton.getY() + winnerButton.getHeight() - 120));
+        } else {
+            g.drawString("The winner is right player!", (int) (winnerButton.getX() + winnerButton.getWidth() / 2 - strWidth / 2),
+                    (int) (winnerButton.getY() + winnerButton.getHeight() - 120));
+        }
+        g.drawString("Congratulations(*¯︶¯*)", (int) (winnerButton.getX() + winnerButton.getWidth() / 2 - strWidth / 2 + 20),
+                (int) (winnerButton.getY() + winnerButton.getHeight() - 60));
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         Point p = e.getPoint();
 
-        if (playButton.contains(p))
+        if (playButton.contains(p)) {
             active = false;
-        else if (winnerButton.contains(p))
+        }
+        else if (winnerButton.contains(p)) {
             System.exit(0);
+        }
     }
 
     @Override

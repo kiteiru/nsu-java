@@ -23,6 +23,8 @@ public class Game extends Canvas implements Runnable {
 
     private MainMenu menu;
 
+    private boolean gameStatus = true;
+
     private Final fin;
     private BufferStrategy buffer;
     private int t = 1;
@@ -116,8 +118,10 @@ public class Game extends Canvas implements Runnable {
         Graphics g = buffer.getDrawGraphics();
         DrawBackground(g);
 
-        if (menu.active)
+
+        if (menu.active) {
             menu.DrawMenu(g);
+        }
 
         ball.DrawBall(g);
 
@@ -127,21 +131,23 @@ public class Game extends Canvas implements Runnable {
         leftPaddle.DrawScore(g, scoreLeft);
         rightPaddle.DrawScore(g, scoreRight);
 
-        if ((scoreLeft == winnerScore || scoreRight ==  winnerScore)) {
+        if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
 
             if (fin.active) {
-                fin.DrawWinner(g);
+                if (scoreLeft == winnerScore) {
+                    fin.DrawWinner(g, true);
+                } else {
+                    fin.DrawWinner(g, false);
+                }
+
             } else {
                 scoreLeft = 0;
                 scoreRight = 0;
             }
-
-
         }
 
         g.dispose();
         buffer.show();
-
     }
 
     private void DrawBackground(Graphics g) {
