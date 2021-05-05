@@ -3,14 +3,12 @@ package com.kiteiru;
 import java.awt.*;
 
 public class Paddle {
-
     private int x, y;
     private int vel = 0;
     private int speed = 15;
     private int width = 20, height = 105;
     private Color color;
     private boolean leftPlayer;
-
 
     public Paddle(Color c, boolean leftPlayer) {
         color = c;

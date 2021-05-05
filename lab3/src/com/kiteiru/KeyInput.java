@@ -4,7 +4,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
-
     private Paddle leftPaddle;
     private boolean leftPadUp = false;
     private boolean leftPadDown = false;
@@ -66,5 +65,4 @@ public class KeyInput extends KeyAdapter {
         if (!rightPadUp && !rightPadDown)
             rightPaddle.StopPaddle();
     }
-
 }

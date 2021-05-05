@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
-
-    //private static final long serialVersionUID = 1L;
-
     public final static int winnerScore = 10;
     public int scoreLeft = 0;
     public int scoreRight = 0;
@@ -22,17 +19,10 @@ public class Game extends Canvas implements Runnable {
     private Paddle rightPaddle;
 
     private Menu menu;
-
     private Final fin;
-    //private BufferStrategy buffer;
-    //private int t = 1;
-
-    private Graphics g;
 
     public Game() {
-
         SetupCanvas();
-
         new Window("ピ ン ポ ン", this);
 
         InitialiseObjects();
@@ -68,7 +58,6 @@ public class Game extends Canvas implements Runnable {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
-        //int frames = 0;
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -77,15 +66,12 @@ public class Game extends Canvas implements Runnable {
                 UpdateObjPositions();
                 delta--;
                 DrawEnvironment();
-                //frames++;
             }
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                //frames = 0;
             }
         }
-
         StopThread();
     }
 
@@ -106,7 +92,6 @@ public class Game extends Canvas implements Runnable {
 
     public void DrawEnvironment() {
         BufferStrategy buffer = this.getBufferStrategy();
-
         if (buffer == null) {
             this.createBufferStrategy(3);
             return;
@@ -115,8 +100,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = buffer.getDrawGraphics();
         DrawBackground(g);
 
-
-        if (menu.active) {
+        if (menu.check) {
             menu.DrawMenu(g);
         }
 
@@ -153,8 +137,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void UpdateObjPositions() {
-
-        if (!(menu.active) && (scoreLeft != winnerScore && scoreRight != winnerScore)) {
+        if (!(menu.check) && (scoreLeft != winnerScore && scoreRight != winnerScore)) {
             ball.ChangeBallDir();
             scoreLeft = ball.UpdateScore(true, scoreLeft);
             scoreRight = ball.UpdateScore(false, scoreRight);
@@ -162,8 +145,6 @@ public class Game extends Canvas implements Runnable {
             leftPaddle.HitTheBall(ball);
             rightPaddle.HitTheBall(ball);
         }
-
-
     }
 
     public static int AvailableMovingRange(int value, int min, int max) {

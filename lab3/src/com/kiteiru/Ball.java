@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Ball {
-
     public static final int SIZE = 35;
-
     private int x, y;
     private int xVel, yVel;
     private int speed = 5;
@@ -30,7 +28,6 @@ public class Ball {
     }
 
     public void ChangeBallDir() {
-
         x += xVel * (speed + acceleration);
         y += yVel * (speed + acceleration);
         acceleration += 0.0075;
@@ -38,7 +35,6 @@ public class Ball {
         if ((y + SIZE) >= Game.HEIGHT || y <= 0) {
             ChangeYDir();
         }
-
     }
 
     public int UpdateScore(boolean leftPaddle, int score) {
@@ -74,8 +70,8 @@ public class Ball {
         yVel *= -1;
     }
 
-    public static int ResetStartBallDir(double d) {
-        if (d <= 0) {
+    public static int ResetStartBallDir(double digit) {
+        if (digit <= 0) {
             return -1;
         }
         return 1;

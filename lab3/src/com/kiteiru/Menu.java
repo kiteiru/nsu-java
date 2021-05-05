@@ -5,24 +5,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Menu extends MouseAdapter {
-
-    public boolean active;
+    public boolean check;
 
     private Rectangle playButton;
     private Rectangle exitButton;
     private Rectangle infoButton;
 
-    private Font font;
+    private Font playExitFont;
     private Font infoFont;
 
     private boolean playHighlight = false;
     private boolean exitHighlight = false;
 
     public Menu(Game game) {
-
-        active = true;
+        check = true;
         game.StartThread();
-
 
         int positionX, positionY;
         int buttonWidth = Game.WIDTH / 2 - 105, buttonHeight = 135;
@@ -39,14 +36,13 @@ public class Menu extends MouseAdapter {
         positionY = Game.HEIGHT / 2 - 185;
         infoButton = new Rectangle(positionX, positionY, infoWidth, infoHeight);
 
-        font = new Font("MS UI Gothic", Font.ROMAN_BASELINE, 80);
+        playExitFont = new Font("MS UI Gothic", Font.ROMAN_BASELINE, 80);
         infoFont = new Font("MS UI Gothic", Font.ROMAN_BASELINE, 35);
     }
 
     public void DrawMenu(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g.setFont(font);
-        //g.setFont(infoFont);
+        g.setFont(playExitFont);
 
         g.setColor(Color.decode("0xF0936A"));
         if (playHighlight) {
@@ -68,17 +64,15 @@ public class Menu extends MouseAdapter {
         g2d.draw(exitButton);
         g2d.draw(infoButton);
 
-        int strWidth, strHeight;
-
-        strWidth = g.getFontMetrics(font).stringWidth("play");
-        strHeight = g.getFontMetrics(font).getHeight();
+        int strWidth = g.getFontMetrics(playExitFont).stringWidth("play");
+        int strHeight = g.getFontMetrics(playExitFont).getHeight();
 
         g.setColor(Color.decode("0x2D3142"));
         g.drawString("play", (int) (playButton.getX() + playButton.getWidth() / 2 - strWidth / 2),
                 (int) (playButton.getY() + playButton.getHeight() / 2 + strHeight / 4));
 
-        strWidth = g.getFontMetrics(font).stringWidth("exit");
-        strHeight = g.getFontMetrics(font).getHeight();
+        strWidth = g.getFontMetrics(playExitFont).stringWidth("exit");
+        strHeight = g.getFontMetrics(playExitFont).getHeight();
 
         g.setColor(Color.decode("0x2D3142"));
         g.drawString("exit", (int) (exitButton.getX() + exitButton.getWidth() / 2 - strWidth / 2),
@@ -88,7 +82,9 @@ public class Menu extends MouseAdapter {
         g.setFont(infoFont);
 
         g.setColor(Color.decode("0x2D3142"));
-        drawString(g, "You'll be playing till one\nof players got 10 points!\n\nLeft player controls\npaddle with AWSD keys\nand right player — with\narrow keys.\n\nGood luck!\t(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧", (int) (infoButton.getX() + infoButton.getWidth() / 2 - 175),
+        drawString(g, "You'll be playing till one\nof players got 10 points!\n\nLeft player controls\n" +
+                        "paddle with AWSD keys\nand right player — with\narrow keys.\n\nGood luck!\t(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+                (int) (infoButton.getX() + infoButton.getWidth() / 2 - 175),
                 (int) (infoButton.getY() + 15));
     }
 
@@ -102,7 +98,7 @@ public class Menu extends MouseAdapter {
         Point p = e.getPoint();
 
         if (playButton.contains(p)) {
-            active = false;
+            check = false;
         } else if (exitButton.contains(p)) {
             System.exit(0);
         }
