@@ -7,7 +7,7 @@ public class Final extends MouseAdapter {
     private Rectangle winnerButton;
     private Font font;
 
-    public Final(Game game) {
+    public Final() {
 
         int positionX, positionY;
         int winnerWidth = Game.WIDTH - 240, winnerHeight = 230;

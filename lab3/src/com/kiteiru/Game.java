@@ -7,7 +7,7 @@ public class Game extends Canvas implements Runnable {
 
     //private static final long serialVersionUID = 1L;
 
-    public final static int winnerScore = 1;
+    public final static int winnerScore = 10;
     public int scoreLeft = 0;
     public int scoreRight = 0;
 
@@ -33,7 +33,7 @@ public class Game extends Canvas implements Runnable {
 
         SetupCanvas();
 
-        new Window("p i n g   p o n g", this);
+        new Window("ピ ン ポ ン", this);
 
         InitialiseObjects();
 
@@ -129,7 +129,7 @@ public class Game extends Canvas implements Runnable {
         rightPaddle.DrawScore(g, scoreRight);
 
         if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
-            fin = new Final(this);
+            fin = new Final();
             if (scoreLeft == winnerScore) {
                 fin.DrawWinner(g, true);
             } else {

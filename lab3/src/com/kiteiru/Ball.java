@@ -45,11 +45,13 @@ public class Ball {
         if (leftPaddle) {
             if ((x + SIZE) >= Game.WIDTH) {
                 score++;
+                acceleration = 1;
                 ResetBall();
             }
         } else {
             if (x <= 0) {
                 score++;
+                acceleration = 1;
                 ResetBall();
             }
         }
