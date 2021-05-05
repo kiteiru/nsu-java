@@ -7,7 +7,7 @@ public class Game extends Canvas implements Runnable {
 
     //private static final long serialVersionUID = 1L;
 
-    public final static int winnerScore = 2;
+    public final static int winnerScore = 1;
     public int scoreLeft = 0;
     public int scoreRight = 0;
 
@@ -21,13 +21,11 @@ public class Game extends Canvas implements Runnable {
     private Paddle leftPaddle;
     private Paddle rightPaddle;
 
-    private MainMenu menu;
-
-    private boolean gameStatus = true;
+    private Menu menu;
 
     private Final fin;
-    private BufferStrategy buffer;
-    private int t = 1;
+    //private BufferStrategy buffer;
+    //private int t = 1;
 
     private Graphics g;
 
@@ -52,8 +50,7 @@ public class Game extends Canvas implements Runnable {
         leftPaddle = new Paddle(Color.decode("0xBFC0C0"), true);
         rightPaddle = new Paddle(Color.decode("0xF2A07D"), false);
 
-        menu = new MainMenu(this);
-        fin = new Final(this);
+        menu = new Menu(this);
     }
 
     private void SetupCanvas() {
@@ -71,7 +68,7 @@ public class Game extends Canvas implements Runnable {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
-        int frames = 0;
+        //int frames = 0;
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -80,12 +77,12 @@ public class Game extends Canvas implements Runnable {
                 UpdateObjPositions();
                 delta--;
                 DrawEnvironment();
-                frames++;
+                //frames++;
             }
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                frames = 0;
+                //frames = 0;
             }
         }
 
@@ -132,17 +129,11 @@ public class Game extends Canvas implements Runnable {
         rightPaddle.DrawScore(g, scoreRight);
 
         if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
-
-            if (fin.active) {
-                if (scoreLeft == winnerScore) {
-                    fin.DrawWinner(g, true);
-                } else {
-                    fin.DrawWinner(g, false);
-                }
-
+            fin = new Final(this);
+            if (scoreLeft == winnerScore) {
+                fin.DrawWinner(g, true);
             } else {
-                scoreLeft = 0;
-                scoreRight = 0;
+                fin.DrawWinner(g, false);
             }
         }
 

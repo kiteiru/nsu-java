@@ -14,10 +14,8 @@ public class KeyInput extends KeyAdapter {
     private boolean rightPadDown = false;
 
     public KeyInput(Paddle leftPaddle, Paddle rightPaddle) {
-
         this.leftPaddle = leftPaddle;
         this.rightPaddle = rightPaddle;
-
     }
 
     @Override
@@ -42,7 +40,7 @@ public class KeyInput extends KeyAdapter {
         }
 
         if (key == KeyEvent.VK_ESCAPE) {
-            System.exit(1);
+            System.exit(0);
         }
     }
 

@@ -38,7 +38,7 @@ public class Paddle {
         int sx;
         int sy = 70;
         String scoreText = Integer.toString(score);
-        Font font = new Font("Junegull", Font.BOLD, 56);
+        Font font = new Font("MS UI Gothic", Font.BOLD, 56);
 
         int strWidth = g.getFontMetrics(font).stringWidth(scoreText);
         int padding = 25;
