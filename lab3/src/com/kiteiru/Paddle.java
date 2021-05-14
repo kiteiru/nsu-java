@@ -21,34 +21,14 @@ public class Paddle {
         }
 
         y = (Model.HEIGHT / 2) - (height / 2);
-
     }
 
-
-    public void DrawPaddle(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+    public void DrawPaddle(Graphics g, View view) {
+        view.DrawPaddle(g, color, x, y, width, height);
     }
 
-    public void DrawScore(Graphics g, int score) {
-        g.setColor(color);
-
-        int sx;
-        int sy = 70;
-        String scoreText = Integer.toString(score);
-        Font font = new Font("MS UI Gothic", Font.BOLD, 56);
-
-        int strWidth = g.getFontMetrics(font).stringWidth(scoreText);
-        int padding = 25;
-
-
-        if (leftPlayer) {
-            sx = (Model.WIDTH / 2) - padding - strWidth;
-        } else {
-            sx = (Model.WIDTH / 2) + padding;
-        }
-        g.setFont(font);
-        g.drawString(scoreText, sx, sy);
+    public void DrawScore(Graphics g, int score, View view) {
+        view.DrawScore(g, score, color, leftPlayer);
     }
 
     public void HitTheBall(Ball ball) {

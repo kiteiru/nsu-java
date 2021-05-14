@@ -50,59 +50,6 @@ public class Menu extends MouseAdapter {
                 exitHighlight, playButton, exitButton, infoButton);
     }
 
-    /*public void DrawMenu(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g.setFont(playExitFont);
-
-        g.setColor(Color.decode("0xF0936A"));
-        if (playHighlight) {
-            g.setColor(Color.decode("0xEB6A33"));
-        }
-        g2d.fill(playButton);
-
-        g.setColor(Color.decode("0x9EA4BD"));
-        if (exitHighlight) {
-            g.setColor(Color.decode("0x6D779C"));
-        }
-        g2d.fill(exitButton);
-
-        g.setColor(Color.decode("0xCFD2DE"));
-        g2d.fill(infoButton);
-
-        g.setColor(Color.decode("0xFFFFFF"));
-        g2d.draw(playButton);
-        g2d.draw(exitButton);
-        g2d.draw(infoButton);
-
-        int strWidth = g.getFontMetrics(playExitFont).stringWidth("play");
-        int strHeight = g.getFontMetrics(playExitFont).getHeight();
-
-        g.setColor(Color.decode("0x2D3142"));
-        g.drawString("play", (int) (playButton.getX() + playButton.getWidth() / 2 - strWidth / 2),
-                (int) (playButton.getY() + playButton.getHeight() / 2 + strHeight / 4));
-
-        strWidth = g.getFontMetrics(playExitFont).stringWidth("exit");
-        strHeight = g.getFontMetrics(playExitFont).getHeight();
-
-        g.setColor(Color.decode("0x2D3142"));
-        g.drawString("exit", (int) (exitButton.getX() + exitButton.getWidth() / 2 - strWidth / 2),
-                (int) (exitButton.getY() + exitButton.getHeight() / 2 + strHeight / 4 + 5));
-
-
-        g.setFont(infoFont);
-
-        g.setColor(Color.decode("0x2D3142"));
-        drawString(g, "You'll be playing till one\nof players got 10 points!\n\nLeft player controls\n" +
-                        "paddle with AWSD keys\nand right player — with\narrow keys.\n\nGood luck!\t(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
-                (int) (infoButton.getX() + infoButton.getWidth() / 2 - 175),
-                (int) (infoButton.getY() + 15));
-    }
-
-    private void drawString(Graphics g, String text, int x, int y) {
-        for (String line : text.split("\n"))
-            g.drawString(line, x, y += g.getFontMetrics().getHeight());
-    }*/
-
     @Override
     public void mouseClicked(MouseEvent e) {
         Point p = e.getPoint();

@@ -1,6 +1,5 @@
 package com.kiteiru;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Ball {
@@ -22,9 +21,8 @@ public class Ball {
         yVel = Ball.ResetStartBallDir(Math.random() * 2.0 - 1);
     }
 
-    public void DrawBall(Graphics g) {
-        g.setColor(Color.decode("0xFFFFFF"));
-        g.fillOval(x, y, SIZE, SIZE);
+    public void DrawBall(Graphics g, View view) {
+        view.DrawBall(g, x, y, SIZE);
     }
 
     public void ChangeBallDir() {

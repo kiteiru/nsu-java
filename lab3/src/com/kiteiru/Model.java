@@ -53,6 +53,7 @@ public class Model extends Canvas implements Runnable {
 
         leftPaddle = new Paddle(Color.decode(leftColor), true);
         rightPaddle = new Paddle(Color.decode(rightColor), false);
+
         menu = new Menu(this, view);
     }
 
@@ -113,44 +114,19 @@ public class Model extends Canvas implements Runnable {
         Graphics g = buffer.getDrawGraphics();
         view.DrawBackground(g, backColor);
 
-        //view.StartMenu(g, menu);
         view.DrawObjects(g, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight);
 
         if (menu.check) {
             menu.SetMenu(g);
         }
 
-        /*ball.DrawBall(g);
-
-        leftPaddle.DrawPaddle(g);
-        rightPaddle.DrawPaddle(g);
-
-        leftPaddle.DrawScore(g, scoreLeft);
-        rightPaddle.DrawScore(g, scoreRight);*/
-
         if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
             fin = new Final(scoreLeft, g, view);
-            /*if (scoreLeft == winnerScore) {
-                fin.DrawWinner(g, true);
-            } else {
-                fin.DrawWinner(g, false);
-            }*/
         }
 
         g.dispose();
         buffer.show();
     }
-
-    /*private void DrawBackground(Graphics g) {
-        g.setColor(Color.decode(backColor));
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-
-        g.setColor(Color.white);
-        Graphics2D g2d = (Graphics2D) g;
-        Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, null, 0);
-        g2d.setStroke(dashed);
-        g.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT);
-    }*/
 
     public void UpdateObjPositions() {
         if (!(menu.check) && (scoreLeft != winnerScore && scoreRight != winnerScore)) {
