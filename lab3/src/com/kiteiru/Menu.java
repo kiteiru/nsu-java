@@ -21,6 +21,7 @@ public class Menu extends MouseAdapter {
 
     public Menu(Model model, View view) {
         this.view = view;
+
         check = true;
         model.StartThread();
 

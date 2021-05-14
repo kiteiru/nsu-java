@@ -104,7 +104,7 @@ public class Model extends Canvas implements Runnable {
         }
     }
 
-    public void DrawEnvironment() { ////TODO VIEW
+    public void DrawEnvironment() {
         BufferStrategy buffer = this.getBufferStrategy();
         if (buffer == null) {
             this.createBufferStrategy(3);
