@@ -3,7 +3,8 @@ package com.kiteiru;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Game extends Canvas implements Runnable {
+public class Model extends Canvas implements Runnable {
+
     public final static int winnerScore = 10;
     public int scoreLeft = 0;
     public int scoreRight = 0;
@@ -12,18 +13,31 @@ public class Game extends Canvas implements Runnable {
     public final static int HEIGHT = 600;
 
     public boolean running = false;
-    private Thread gameThread;
+    private Thread modelThread;
 
     private Ball ball;
     private Paddle leftPaddle;
     private Paddle rightPaddle;
 
+    private String leftColor = "0xBFC0C0";
+    private String rightColor = "0xF2A07D";
+    private String backColor = "0x2D3142";
+
     private Menu menu;
     private Final fin;
 
-    public Game() {
+    View view;
+
+    private String title = "ピ ン ポ ン";
+
+    public Model() {
+        View view = new View(this);
+        this.view = view;
+    }
+
+    public void Play() {
         SetupCanvas();
-        new Window("ピ ン ポ ン", this);
+        view.Window(title, this);
 
         InitialiseObjects();
 
@@ -37,10 +51,9 @@ public class Game extends Canvas implements Runnable {
     private void InitialiseObjects() {
         ball = new Ball();
 
-        leftPaddle = new Paddle(Color.decode("0xBFC0C0"), true);
-        rightPaddle = new Paddle(Color.decode("0xF2A07D"), false);
-
-        menu = new Menu(this);
+        leftPaddle = new Paddle(Color.decode(leftColor), true);
+        rightPaddle = new Paddle(Color.decode(rightColor), false);
+        menu = new Menu(this, view);
     }
 
     private void SetupCanvas() {
@@ -50,7 +63,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() { ////TODO MODEL
         this.requestFocus();
 
         long lastTime = System.nanoTime();
@@ -76,21 +89,21 @@ public class Game extends Canvas implements Runnable {
     }
 
     public synchronized void StartThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
+        modelThread = new Thread(this);
+        modelThread.start();
         running = true;
     }
 
     public void StopThread() {
         try {
-            gameThread.join();
+            modelThread.join();
             running = false;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void DrawEnvironment() {
+    public void DrawEnvironment() { ////TODO VIEW
         BufferStrategy buffer = this.getBufferStrategy();
         if (buffer == null) {
             this.createBufferStrategy(3);
@@ -98,35 +111,38 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = buffer.getDrawGraphics();
-        DrawBackground(g);
+        view.DrawBackground(g, backColor);
+
+        //view.StartMenu(g, menu);
+        view.DrawObjects(g, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight);
 
         if (menu.check) {
-            menu.DrawMenu(g);
+            menu.SetMenu(g);
         }
 
-        ball.DrawBall(g);
+        /*ball.DrawBall(g);
 
         leftPaddle.DrawPaddle(g);
         rightPaddle.DrawPaddle(g);
 
         leftPaddle.DrawScore(g, scoreLeft);
-        rightPaddle.DrawScore(g, scoreRight);
+        rightPaddle.DrawScore(g, scoreRight);*/
 
         if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
-            fin = new Final();
-            if (scoreLeft == winnerScore) {
+            fin = new Final(scoreLeft, g, view);
+            /*if (scoreLeft == winnerScore) {
                 fin.DrawWinner(g, true);
             } else {
                 fin.DrawWinner(g, false);
-            }
+            }*/
         }
 
         g.dispose();
         buffer.show();
     }
 
-    private void DrawBackground(Graphics g) {
-        g.setColor(Color.decode("0x2D3142"));
+    /*private void DrawBackground(Graphics g) {
+        g.setColor(Color.decode(backColor));
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         g.setColor(Color.white);
@@ -134,7 +150,7 @@ public class Game extends Canvas implements Runnable {
         Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, null, 0);
         g2d.setStroke(dashed);
         g.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT);
-    }
+    }*/
 
     public void UpdateObjPositions() {
         if (!(menu.check) && (scoreLeft != winnerScore && scoreRight != winnerScore)) {

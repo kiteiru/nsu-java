@@ -17,30 +17,40 @@ public class Menu extends MouseAdapter {
     private boolean playHighlight = false;
     private boolean exitHighlight = false;
 
-    public Menu(Game game) {
+    View view;
+
+    public Menu(Model model, View view) {
+        this.view = view;
         check = true;
-        game.StartThread();
+        model.StartThread();
 
         int positionX, positionY;
-        int buttonWidth = Game.WIDTH / 2 - 105, buttonHeight = 135;
-        int infoWidth = Game.WIDTH / 2 - 105, infoHeight = Game.HEIGHT - 225;
+        int buttonWidth = Model.WIDTH / 2 - 105, buttonHeight = 135;
+        int infoWidth = Model.WIDTH / 2 - 105, infoHeight = Model.HEIGHT - 225;
 
-        positionX = Game.WIDTH / 2 + 50;
-        positionY = Game.HEIGHT / 2 - 135 - 50;
+        positionX = Model.WIDTH / 2 + 50;
+        positionY = Model.HEIGHT / 2 - 135 - 50;
         playButton = new Rectangle(positionX, positionY, buttonWidth, buttonHeight);
 
-        positionY = Game.HEIGHT / 2 - 135 + 190;
+        positionY = Model.HEIGHT / 2 - 135 + 190;
         exitButton = new Rectangle(positionX, positionY, buttonWidth, buttonHeight);
 
-        positionX = Game.WIDTH / 2 - infoWidth / 2 - 245;
-        positionY = Game.HEIGHT / 2 - 185;
+        positionX = Model.WIDTH / 2 - infoWidth / 2 - 245;
+        positionY = Model.HEIGHT / 2 - 185;
         infoButton = new Rectangle(positionX, positionY, infoWidth, infoHeight);
 
         playExitFont = new Font("MS UI Gothic", Font.ROMAN_BASELINE, 80);
         infoFont = new Font("MS UI Gothic", Font.ROMAN_BASELINE, 35);
+
+
     }
 
-    public void DrawMenu(Graphics g) {
+    public void SetMenu(Graphics g) {
+        view.DrawMenu(g, playExitFont, infoFont, playHighlight,
+                exitHighlight, playButton, exitButton, infoButton);
+    }
+
+    /*public void DrawMenu(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g.setFont(playExitFont);
 
@@ -91,7 +101,7 @@ public class Menu extends MouseAdapter {
     private void drawString(Graphics g, String text, int x, int y) {
         for (String line : text.split("\n"))
             g.drawString(line, x, y += g.getFontMetrics().getHeight());
-    }
+    }*/
 
     @Override
     public void mouseClicked(MouseEvent e) {

@@ -17,10 +17,10 @@ public class Paddle {
         if (leftPlayer){
             x = 0;
         } else {
-            x = Game.WIDTH - width;
+            x = Model.WIDTH - width;
         }
 
-        y = (Game.HEIGHT / 2) - (height / 2);
+        y = (Model.HEIGHT / 2) - (height / 2);
 
     }
 
@@ -43,16 +43,16 @@ public class Paddle {
 
 
         if (leftPlayer) {
-            sx = (Game.WIDTH / 2) - padding - strWidth;
+            sx = (Model.WIDTH / 2) - padding - strWidth;
         } else {
-            sx = (Game.WIDTH / 2) + padding;
+            sx = (Model.WIDTH / 2) + padding;
         }
         g.setFont(font);
         g.drawString(scoreText, sx, sy);
     }
 
     public void HitTheBall(Ball ball) {
-        y = Game.AvailableMovingRange(y + vel, 0, Game.HEIGHT - height);
+        y = Model.AvailableMovingRange(y + vel, 0, Model.HEIGHT - height);
 
         int ballX = ball.GetX();
         int ballY = ball.GetY();
@@ -62,7 +62,7 @@ public class Paddle {
                 ball.ChangeXDir();
             }
         } else {
-            if ((ballX + Ball.SIZE >= Game.WIDTH - width) && (ballY + Ball.SIZE >= y) && (ballY <= y + height)) {
+            if ((ballX + Ball.SIZE >= Model.WIDTH - width) && (ballY + Ball.SIZE >= y) && (ballY <= y + height)) {
                 ball.ChangeXDir();
             }
         }

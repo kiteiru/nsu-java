@@ -15,8 +15,8 @@ public class Ball {
     }
 
     private void ResetBall() {
-        x = (Game.WIDTH / 2) - (SIZE / 2);
-        y = (Game.HEIGHT / 2) - (SIZE / 2);
+        x = (Model.WIDTH / 2) - (SIZE / 2);
+        y = (Model.HEIGHT / 2) - (SIZE / 2);
 
         xVel = Ball.ResetStartBallDir(Math.random() * 2.0 - 1);
         yVel = Ball.ResetStartBallDir(Math.random() * 2.0 - 1);
@@ -32,14 +32,14 @@ public class Ball {
         y += yVel * (speed + acceleration);
         acceleration += 0.0075;
 
-        if ((y + SIZE) >= Game.HEIGHT || y <= 0) {
+        if ((y + SIZE) >= Model.HEIGHT || y <= 0) {
             ChangeYDir();
         }
     }
 
     public int UpdateScore(boolean leftPaddle, int score) {
         if (leftPaddle) {
-            if ((x + SIZE) >= Game.WIDTH) {
+            if ((x + SIZE) >= Model.WIDTH) {
                 score++;
                 acceleration = 1;
                 ResetBall();
