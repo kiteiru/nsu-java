@@ -66,3 +66,5 @@ public class KeyInput extends KeyAdapter {
             rightPaddle.StopPaddle();
     }
 }
+
+

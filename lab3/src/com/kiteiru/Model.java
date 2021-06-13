@@ -2,8 +2,9 @@ package com.kiteiru;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.TimerTask;
 
-public class Model extends Canvas implements Runnable {
+public class Model extends Canvas implements Runnable  {
 
     public final static int winnerScore = 10;
     public int scoreLeft = 0;
@@ -143,3 +144,7 @@ public class Model extends Canvas implements Runnable {
         return Math.min(Math.max(value, min), max);
     }
 }
+
+
+
+
