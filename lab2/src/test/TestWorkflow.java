@@ -82,13 +82,11 @@ public class TestWorkflow {
         Assertions.assertTrue(Files.exists(Path.of(writeFile)));
     }
 
-    @BeforeAll
     static void CreateWorkflowTemplate() throws IOException {
         testText = Files.readAllLines(Path.of("in_test.txt"));
         testText = Collections.unmodifiableList(testText);
     }
 
-    @BeforeEach
     void СreateContext() {
         context = new ArrayList<>();
     }
