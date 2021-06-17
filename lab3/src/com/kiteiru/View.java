@@ -74,11 +74,11 @@ public class View {
             this.leftPaddle = leftPaddle.GetPaddle();
             this.rightPaddle = rightPaddle.GetPaddle();
             this.menu = menu.GetMenu();
-            DrawEnvironment(model, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight, menu);
+            DrawEnvironment();
         }
     }
 
-    public void DrawEnvironment(Model model, Ball ball, Paddle leftPaddle, Paddle rightPaddle, int scoreLeft, int scoreRight, Menu menu) {
+    public void DrawEnvironment() {
         BufferStrategy buffer = model.getBufferStrategy();
         if (buffer == null) {
             model.createBufferStrategy(3);
@@ -86,35 +86,35 @@ public class View {
         }
 
         g = buffer.getDrawGraphics();
-        DrawBackground(g, backColor);
-        DrawObjects(g, ball, leftPaddle, rightPaddle);
+        DrawBackground(backColor);
+        DrawObjects();
 
         if (menu.check) {
-            menu.SetMenu(g);
+            menu.SetMenu();
         }
 
-        this.scoreLeft = scoreLeft;
-        this.scoreRight = scoreRight;
+        this.scoreLeft = model.GetScoreLeft();
+        this.scoreRight = model.GetScoreRight();
 
         if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
-            DrawWinner(g);
+            DrawWinner();
         }
 
         g.dispose();
         buffer.show();
     }
 
-    public void DrawObjects(Graphics g, Ball ball, Paddle leftPaddle, Paddle rightPaddle) {
-        DrawBall(g, ball);
+    public void DrawObjects() {
+        DrawBall();
 
-        DrawLeftPaddle(g, leftPaddle);
-        DrawRightPaddle(g, rightPaddle);
+        DrawLeftPaddle();
+        DrawRightPaddle();
 
-        DrawScore(g, scoreLeft, Color.decode(leftColor), true);
-        DrawScore(g, scoreRight, Color.decode(rightColor), false);
+        DrawScore(scoreLeft, Color.decode(leftColor), true);
+        DrawScore(scoreRight, Color.decode(rightColor), false);
     }
 
-    void DrawBackground(Graphics g, String backColor) {
+    void DrawBackground(String backColor) {
         g.setColor(Color.decode(backColor));
         g.fillRect(0, 0, model.WIDTH, model.HEIGHT);
 
@@ -125,28 +125,28 @@ public class View {
         g.drawLine(model.WIDTH / 2, 0, model.WIDTH / 2, model.HEIGHT);
     }
 
-    public void DrawBall(Graphics g, Ball ball) {
+    public void DrawBall() {
         g.setColor(Color.decode("0xFFFFFF"));
         xBall = ball.GetX();
         yBall = ball.GetY();
         g.fillOval(xBall, yBall, SIZE, SIZE);
     }
 
-    public void DrawLeftPaddle(Graphics g, Paddle leftPaddle) {
+    public void DrawLeftPaddle() {
         g.setColor(Color.decode(leftColor));
         xLeftPaddle = leftPaddle.GetX();
         yLeftPaddle = leftPaddle.GetY();
         g.fillRect(xLeftPaddle, yLeftPaddle, widthPaddle, heightPaddle);
     }
 
-    public void DrawRightPaddle(Graphics g, Paddle rightPaddle) {
+    public void DrawRightPaddle() {
         g.setColor(Color.decode(rightColor));
         xRightPaddle = rightPaddle.GetX();
         yRightPaddle = rightPaddle.GetY();
         g.fillRect(xRightPaddle, yRightPaddle, widthPaddle, heightPaddle);
     }
 
-    public void DrawScore(Graphics g, int score, Color color, boolean leftPlayer) {
+    public void DrawScore(int score, Color color, boolean leftPlayer) {
         g.setColor(color);
 
         int sx;
@@ -166,7 +166,7 @@ public class View {
         g.drawString(scoreText, sx, sy);
     }
 
-    public void DrawMenu(Graphics g, Font playExitFont, Font infoFont, boolean playHighlight,
+    public void DrawMenu(Font playExitFont, Font infoFont, boolean playHighlight,
                          boolean exitHighlight, Rectangle playButton, Rectangle exitButton, Rectangle infoButton) {
         Graphics2D g2d = (Graphics2D) g;
         g.setFont(playExitFont);
@@ -220,7 +220,7 @@ public class View {
             g.drawString(line, x, y += g.getFontMetrics().getHeight());
     }
 
-    public void DrawWinner(Graphics g) {
+    public void DrawWinner() {
         int winnerWidth = Model.WIDTH / 2, winnerHeight = Model.HEIGHT / 3;
 
         int positionX = Model.WIDTH / 2 - winnerWidth / 2;

@@ -48,8 +48,8 @@ public class Menu extends MouseAdapter {
 
     }
 
-    public void SetMenu(Graphics g) {
-        view.DrawMenu(g, playExitFont, infoFont, playHighlight,
+    public void SetMenu() {
+        view.DrawMenu(playExitFont, infoFont, playHighlight,
                 exitHighlight, playButton, exitButton, infoButton);
     }
 

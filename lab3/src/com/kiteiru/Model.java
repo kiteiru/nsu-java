@@ -105,6 +105,13 @@ public class Model extends Canvas implements Runnable  {
         return gameStatus;
     }
 
+    public int GetScoreLeft() {
+        return scoreLeft;
+    }
+
+    public int GetScoreRight() {
+        return scoreRight;
+    }
 }
 
 
