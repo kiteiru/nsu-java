@@ -46,7 +46,7 @@ public class Model extends Canvas implements Runnable  {
     }
 
     @Override
-    public void run() { ////TODO MODEL
+    public void run() {
         this.requestFocus();
 
         long lastTime = System.nanoTime();
