@@ -1,7 +1,5 @@
 package com.kiteiru;
 
-import java.awt.Graphics;
-
 public class Ball {
     public static final int SIZE = 35;
     private int x, y;
@@ -19,10 +17,6 @@ public class Ball {
 
         xVel = Ball.ResetStartBallDir(Math.random() * 2.0 - 1);
         yVel = Ball.ResetStartBallDir(Math.random() * 2.0 - 1);
-    }
-
-    public void DrawBall(Graphics g, View view) {
-        view.DrawBall(g, x, y, SIZE);
     }
 
     public void ChangeBallDir() {
@@ -75,6 +69,9 @@ public class Ball {
         return 1;
     }
 
+    public Ball GetBall() {
+        return this;
+    }
 }
 
 

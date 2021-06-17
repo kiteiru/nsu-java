@@ -1,8 +1,6 @@
 package com.kiteiru;
 
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.util.TimerTask;
 
 public class Model extends Canvas implements Runnable  {
 
@@ -19,26 +17,18 @@ public class Model extends Canvas implements Runnable  {
     private Ball ball;
     private Paddle leftPaddle;
     private Paddle rightPaddle;
-
-    private String leftColor = "0xBFC0C0";
-    private String rightColor = "0xF2A07D";
-    private String backColor = "0x2D3142";
-
     private Menu menu;
-    private Final fin;
-
-    View view;
-
-    private String title = "ピ ン ポ ン";
+    private GameStatus gameStatus;
 
     public Model() {
-        View view = new View(this);
-        this.view = view;
+        //View view = new View(this);
+        //this.view = view;
     }
 
     public void Play() {
-        SetupCanvas();
-        view.Window(title, this);
+        gameStatus = GameStatus.PLAY;
+        //view.SetupCanvas();
+        //view.Window(this);
 
         InitialiseObjects();
 
@@ -49,19 +39,13 @@ public class Model extends Canvas implements Runnable  {
 
     }
 
-    private void InitialiseObjects() {
+    void InitialiseObjects() {
         ball = new Ball();
 
-        leftPaddle = new Paddle(Color.decode(leftColor), true);
-        rightPaddle = new Paddle(Color.decode(rightColor), false);
+        leftPaddle = new Paddle(true);
+        rightPaddle = new Paddle(false);
 
-        menu = new Menu(this, view);
-    }
-
-    private void SetupCanvas() {
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-        this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        menu = new Menu(this);
     }
 
     @Override
@@ -80,7 +64,8 @@ public class Model extends Canvas implements Runnable  {
             if (delta >= 1) {
                 UpdateObjPositions();
                 delta--;
-                DrawEnvironment();
+                gameStatus = GameStatus.UPDATE;
+                //view.DrawEnvironment(this, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight, menu);
             }
 
             if (System.currentTimeMillis() - timer > 1000) {
@@ -105,30 +90,6 @@ public class Model extends Canvas implements Runnable  {
         }
     }
 
-    public void DrawEnvironment() {
-        BufferStrategy buffer = this.getBufferStrategy();
-        if (buffer == null) {
-            this.createBufferStrategy(3);
-            return;
-        }
-
-        Graphics g = buffer.getDrawGraphics();
-        view.DrawBackground(g, backColor);
-
-        view.DrawObjects(g, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight);
-
-        if (menu.check) {
-            menu.SetMenu(g);
-        }
-
-        if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
-            fin = new Final(scoreLeft, g, view);
-        }
-
-        g.dispose();
-        buffer.show();
-    }
-
     public void UpdateObjPositions() {
         if (!(menu.check) && (scoreLeft != winnerScore && scoreRight != winnerScore)) {
             ball.ChangeBallDir();
@@ -143,6 +104,11 @@ public class Model extends Canvas implements Runnable  {
     public static int AvailableMovingRange(int value, int min, int max) {
         return Math.min(Math.max(value, min), max);
     }
+
+    public GameStatus GetGameStatus() {
+        return gameStatus;
+    }
+
 }
 
 

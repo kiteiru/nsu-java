@@ -17,9 +17,11 @@ public class Menu extends MouseAdapter {
     private boolean playHighlight = false;
     private boolean exitHighlight = false;
 
+    private GameStatus gameStatus;
+
     View view;
 
-    public Menu(Model model, View view) {
+    public Menu(Model model) {
         this.view = view;
 
         check = true;
@@ -68,6 +70,10 @@ public class Menu extends MouseAdapter {
 
         playHighlight = playButton.contains(p);
         exitHighlight = exitButton.contains(p);
+    }
+
+    public Menu GetMenu() {
+        return this;
     }
 
 }

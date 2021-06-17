@@ -1,17 +1,13 @@
 package com.kiteiru;
 
-import java.awt.*;
-
 public class Paddle {
     private int x, y;
     private int vel = 0;
     private int speed = 15;
     private int width = 20, height = 105;
-    private Color color;
     private boolean leftPlayer;
 
-    public Paddle(Color c, boolean leftPlayer) {
-        color = c;
+    public Paddle(boolean leftPlayer) {
         this.leftPlayer = leftPlayer;
 
         if (leftPlayer){
@@ -21,14 +17,6 @@ public class Paddle {
         }
 
         y = (Model.HEIGHT / 2) - (height / 2);
-    }
-
-    public void DrawPaddle(Graphics g, View view) {
-        view.DrawPaddle(g, color, x, y, width, height);
-    }
-
-    public void DrawScore(Graphics g, int score, View view) {
-        view.DrawScore(g, score, color, leftPlayer);
     }
 
     public void HitTheBall(Ball ball) {
@@ -55,6 +43,18 @@ public class Paddle {
 
     public void StopPaddle() {
         vel = 0;
+    }
+
+    public int GetX() {
+        return x;
+    }
+
+    public int GetY() {
+        return y;
+    }
+
+    public Paddle GetPaddle() {
+        return this;
     }
 
 }

@@ -2,16 +2,59 @@ package com.kiteiru;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import com.kiteiru.GameStatus;
 
 
 public class View {
+
+    public static final int SIZE = 35;
+    private int widthPaddle = 20, heightPaddle = 105;
+
     private Model model;
+
+    int xBall;
+    int yBall;
+    int xLeftPaddle;
+    int yLeftPaddle;
+    int xRightPaddle;
+    int yRightPaddle;
+
+    private Rectangle winnerButton;
+    private Font font;
+
+    private Ball ball;
+    private Paddle leftPaddle;
+    private Paddle rightPaddle;
+    private Menu menu;
+
+    private String leftColor = "0xBFC0C0";
+    private String rightColor = "0xF2A07D";
+    private String backColor = "0x2D3142";
+
+    public final static int WIDTH = 1000;
+    public final static int HEIGHT = 600;
+
+    public final static int winnerScore = 10;
+    private int scoreLeft;
+    private int scoreRight;
+
+    private Graphics g;
+
+    private String title = "ピ ン ポ ン";
 
     public View(Model model){
         this.model = model;
     }
 
-    public void Window(String title, Model model) {
+
+    void SetupCanvas() {
+        model.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        model.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        model.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+    }
+
+    public void Window(Model model) {
         JFrame frame = new JFrame(title);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,14 +65,53 @@ public class View {
         frame.setVisible(true);
     }
 
-    public void DrawObjects(Graphics g, Ball ball, Paddle leftPaddle, Paddle rightPaddle, int scoreLeft, int scoreRight) {
-        ball.DrawBall(g, this);
+    private void CheckGameStatus() {
+        if (model.GetGameStatus() == GameStatus.PLAY) {
+            SetupCanvas();
+            Window(model);
+        } else if (model.GetGameStatus() == GameStatus.UPDATE) {
+            this.ball = ball.GetBall();
+            this.leftPaddle = leftPaddle.GetPaddle();
+            this.rightPaddle = rightPaddle.GetPaddle();
+            this.menu = menu.GetMenu();
+            DrawEnvironment(model, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight, menu);
+        }
+    }
 
-        leftPaddle.DrawPaddle(g, this);
-        rightPaddle.DrawPaddle(g, this);
+    public void DrawEnvironment(Model model, Ball ball, Paddle leftPaddle, Paddle rightPaddle, int scoreLeft, int scoreRight, Menu menu) {
+        BufferStrategy buffer = model.getBufferStrategy();
+        if (buffer == null) {
+            model.createBufferStrategy(3);
+            return;
+        }
 
-        leftPaddle.DrawScore(g, scoreLeft, this);
-        rightPaddle.DrawScore(g, scoreRight, this);
+        g = buffer.getDrawGraphics();
+        DrawBackground(g, backColor);
+        DrawObjects(g, ball, leftPaddle, rightPaddle);
+
+        if (menu.check) {
+            menu.SetMenu(g);
+        }
+
+        this.scoreLeft = scoreLeft;
+        this.scoreRight = scoreRight;
+
+        if ((scoreLeft == winnerScore || scoreRight == winnerScore)) {
+            DrawWinner(g);
+        }
+
+        g.dispose();
+        buffer.show();
+    }
+
+    public void DrawObjects(Graphics g, Ball ball, Paddle leftPaddle, Paddle rightPaddle) {
+        DrawBall(g, ball);
+
+        DrawLeftPaddle(g, leftPaddle);
+        DrawRightPaddle(g, rightPaddle);
+
+        DrawScore(g, scoreLeft, Color.decode(leftColor), true);
+        DrawScore(g, scoreRight, Color.decode(rightColor), false);
     }
 
     void DrawBackground(Graphics g, String backColor) {
@@ -43,14 +125,25 @@ public class View {
         g.drawLine(model.WIDTH / 2, 0, model.WIDTH / 2, model.HEIGHT);
     }
 
-    public void DrawBall(Graphics g, int x, int y, int SIZE) {
+    public void DrawBall(Graphics g, Ball ball) {
         g.setColor(Color.decode("0xFFFFFF"));
-        g.fillOval(x, y, SIZE, SIZE);
+        xBall = ball.GetX();
+        yBall = ball.GetY();
+        g.fillOval(xBall, yBall, SIZE, SIZE);
     }
 
-    public void DrawPaddle(Graphics g, Color color, int x, int y, int width, int height) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+    public void DrawLeftPaddle(Graphics g, Paddle leftPaddle) {
+        g.setColor(Color.decode(leftColor));
+        xLeftPaddle = leftPaddle.GetX();
+        yLeftPaddle = leftPaddle.GetY();
+        g.fillRect(xLeftPaddle, yLeftPaddle, widthPaddle, heightPaddle);
+    }
+
+    public void DrawRightPaddle(Graphics g, Paddle rightPaddle) {
+        g.setColor(Color.decode(rightColor));
+        xRightPaddle = rightPaddle.GetX();
+        yRightPaddle = rightPaddle.GetY();
+        g.fillRect(xRightPaddle, yRightPaddle, widthPaddle, heightPaddle);
     }
 
     public void DrawScore(Graphics g, int score, Color color, boolean leftPlayer) {
@@ -63,7 +156,6 @@ public class View {
 
         int strWidth = g.getFontMetrics(font).stringWidth(scoreText);
         int padding = 25;
-
 
         if (leftPlayer) {
             sx = (Model.WIDTH / 2) - padding - strWidth;
@@ -128,11 +220,18 @@ public class View {
             g.drawString(line, x, y += g.getFontMetrics().getHeight());
     }
 
-    public void DrawWinner(Graphics g, boolean leftPlayer, Font font, Rectangle winnerButton) {
+    public void DrawWinner(Graphics g) {
+        int winnerWidth = Model.WIDTH / 2, winnerHeight = Model.HEIGHT / 3;
+
+        int positionX = Model.WIDTH / 2 - winnerWidth / 2;
+        int positionY = Model.HEIGHT / 2 - winnerHeight / 2;
+        winnerButton = new Rectangle(positionX, positionY, winnerWidth, winnerHeight);
+        font = new Font("MS UI Gothic", Font.ROMAN_BASELINE, 35);
+
         Graphics2D g2d = (Graphics2D) g;
         g.setFont(font);
 
-        if (leftPlayer) {
+        if (scoreLeft == winnerScore) {
             g.setColor(Color.decode("0xCFD2DE"));
         } else {
             g.setColor(Color.decode("0xF5BCA3"));
@@ -144,7 +243,7 @@ public class View {
 
         int strWidth;
 
-        if (leftPlayer) {
+        if (scoreLeft == winnerScore) {
             strWidth = g.getFontMetrics(font).stringWidth("The winner is left player!");
         } else {
             strWidth = g.getFontMetrics(font).stringWidth("The winner is right player!");
@@ -153,7 +252,7 @@ public class View {
         g.setColor(Color.decode("0x2D3142"));
         g.drawString("。。。", (int) (winnerButton.getX() + winnerButton.getWidth() / 2 - 30),
                 (int) (winnerButton.getY() + winnerButton.getHeight() - 175));
-        if (leftPlayer) {
+        if (scoreLeft == winnerScore) {
             g.drawString("The winner is the left player!", (int) (winnerButton.getX() + winnerButton.getWidth() / 2 - strWidth / 2 - 30),
                     (int) (winnerButton.getY() + winnerButton.getHeight() - 132));
         } else {
