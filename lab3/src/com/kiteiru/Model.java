@@ -21,14 +21,11 @@ public class Model extends Canvas implements Runnable  {
     private GameStatus gameStatus;
 
     public Model() {
-        //View view = new View(this);
-        //this.view = view;
+
     }
 
     public void Play() {
         gameStatus = GameStatus.PLAY;
-        //view.SetupCanvas();
-        //view.Window(this);
 
         InitialiseObjects();
 
@@ -65,7 +62,6 @@ public class Model extends Canvas implements Runnable  {
                 UpdateObjPositions();
                 delta--;
                 gameStatus = GameStatus.UPDATE;
-                //view.DrawEnvironment(this, ball, leftPaddle, rightPaddle, scoreLeft, scoreRight, menu);
             }
 
             if (System.currentTimeMillis() - timer > 1000) {
